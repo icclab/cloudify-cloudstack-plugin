@@ -104,8 +104,15 @@ def create(ctx, **kwargs):
                     acl_type = acl.get('type')
 
                     for port in acl_ports:
+                        # Specifying port ranges "start_port:end_port"
+                        ports = str(port).split(':')
+                        start_port = int(ports[0])
+                        if len(ports) == 1:
+                            end_port = start_port
+                        elif len(ports) == 2:
+                            end_port = int(ports[1])
                         create_acl(cloud_driver, acl_protocol, acl_list.id,
-                                   acl_cidr, port, port, acl_type)
+                                   acl_cidr, start_port, end_port, acl_type)
 
         else:
             ctx.logger.info('Creating network: {0}'.format(network_name))
