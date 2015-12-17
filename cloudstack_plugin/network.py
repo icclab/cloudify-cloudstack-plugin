@@ -111,6 +111,11 @@ def create(ctx, **kwargs):
                             end_port = start_port
                         elif len(ports) == 2:
                             end_port = int(ports[1])
+                        else:
+                            raise NonRecoverableError(
+                                'Port may be a single port or a port range '
+                                'in the format start_port:end_port.'
+                                'Entered: {0}'.format(port))
                         create_acl(cloud_driver, acl_protocol, acl_list.id,
                                    acl_cidr, start_port, end_port, acl_type)
 
